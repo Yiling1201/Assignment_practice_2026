@@ -13,8 +13,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriverException;
 
 
 
@@ -95,7 +93,7 @@ public class MyStepdefs {
     public void iSetTermsAndConditionsTo(String termsAccepted) {
 
         // Om termsAccepted inte är "true" så klickar vi inte i checkboxarna
-        // if (!termsAccepted.equalsIgnoreCase("true")) return;
+        if (!termsAccepted.equalsIgnoreCase("true")) return;
 
         // Klickar i obligatoriska villkor
         clickLabelFor("sign_up_25");
@@ -103,72 +101,36 @@ public class MyStepdefs {
         clickLabelFor("fanmembersignup_agreetocodeofethicsandconduct");
     }
 
-
-
     private void clickLabelFor(String inputId) {
-            driver.findElement(By.cssSelector("label[for='" + inputId + "']")).click();
-        }
-
-
-//        // Hittar label som hör till input-id (checkbox)
-//        By label = By.cssSelector("label[for='" + inputId + "']");
-//
-
-//        WebElement el = waitForElement(label);
-
-
-//        // Scrollar så att elementet syns i mitten av sidan
-//        ((JavascriptExecutor) driver)
-//                .executeScript("arguments[0].scrollIntoView({block:'center'});", el);
-
-
-//        // Försöker klicka normalt, annars använder vi JS-klick som backup
-//        try {
-//            el.click();
-//        } catch (WebDriverException e) {
-//            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
-//        }
-
+        driver.findElement(By.cssSelector("label[for='" + inputId + "']")).click();
+    }
 
     @And("I submit the registration form")
     public void iSubmitTheRegistrationForm() {
-
-        By submit = By.cssSelector("input[type='submit'], button[type='submit']");
-        WebElement btn = waitForElement(submit);
-
-        ((JavascriptExecutor) driver)
-                .executeScript("arguments[0].scrollIntoView({block:'center'});", btn);
-
-        btn.click();
+        waitForElement(By.cssSelector("input[type='submit'], button[type='submit']")).click();
     }
-
-
 
     @Then("the result should be {string}")
     public void theResultShouldBe(String expectedResult) {
 
+        // Hämtar nuvarande URL
         String current = driver.getCurrentUrl();
 
         if (expectedResult.equals("account created")) {
-
-            // local HTML 沒 backend：手動導向 Success.html
+            // Local HTML har ingen backend, därför går jag manuellt till Success.html
             String successUrl = current.replace("Register.html", "Success.html");
             driver.get(successUrl);
 
-            new WebDriverWait(driver, Duration.ofSeconds(5))
-                    .until(ExpectedConditions.urlContains("Success.html"));
+            // Väntar tills URL innehåller Success.html
+            new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.urlContains("Success.html"));
 
-            Assertions.assertTrue(
-                    driver.getCurrentUrl().contains("Success.html"),
-                    "Expected Success.html but was: " + driver.getCurrentUrl()
-            );
+            // verifierar resultatet genom att kontrollera URL: om det är lyckat ska vi vara på Success.html, annars ska vi stanna på Register.html.
+            // Verifierar att vi är på Success.html
+            Assertions.assertTrue(driver.getCurrentUrl().contains("Success.html"));
 
-        } else {
-            // 其他錯誤情況：應該留在 Register.html（目前 3 個 scenario 都是 pass）
+        } else { //Vid fel ska vi stanna på Register.html
             Assertions.assertTrue(
-                    driver.getCurrentUrl().contains("Register.html"),
-                    "Expected to stay on Register page but was: " + driver.getCurrentUrl()
-            );
+                    driver.getCurrentUrl().contains("Register.html"));
         }
     }
 }
