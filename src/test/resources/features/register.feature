@@ -17,8 +17,6 @@ Feature: User registration
     And I submit the registration form
     Then the result should be "<expectedResult>"
 
-
-
     Examples:
       | dateOfBirth | firstName | lastName | email         | confirmEmail   | password | confirmPassword | termsAccepted | expectedResult           |
       | 2000-01-01  | Emily     | Lin      | emily@test.se | emily@test.se  | 12345    | 12345           | true          | account created          |
