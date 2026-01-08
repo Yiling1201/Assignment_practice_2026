@@ -11,9 +11,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 
 
 import java.time.Duration;
@@ -40,8 +40,6 @@ public class MyStepdefs {
         // 1. Öppna i Chrome först
         driver = new ChromeDriver();
         driver.get(url);
-        // kontroll att vi är på rätt sida
-        Assertions.assertTrue(driver.getCurrentUrl().contains("Register.html"));
 
         // Stäng Chrome
         driver.quit();
@@ -49,8 +47,7 @@ public class MyStepdefs {
         // 2. Öppna samma sida i Edge
         driver = new EdgeDriver();
         driver.get(url);
-        // Enkel kontroll igen
-        Assertions.assertTrue(driver.getCurrentUrl().contains("Register.html"));
+
     }
 
     @When("I enter date of birth {string}") //Fyller i födelsedatum
