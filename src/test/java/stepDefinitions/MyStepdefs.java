@@ -11,9 +11,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 
 
 import java.time.Duration;
@@ -51,6 +51,12 @@ public class MyStepdefs {
         driver.get(url);
         // Enkel kontroll igen
         Assertions.assertTrue(driver.getCurrentUrl().contains("Register.html"));
+
+        driver.quit();
+
+        // 3. Öppna new driver/ testa github action
+        driver =new FirefoxDriver();
+        driver.get(url);
     }
 
     @When("I enter date of birth {string}") //Fyller i födelsedatum
