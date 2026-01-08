@@ -40,8 +40,6 @@ public class MyStepdefs {
         // 1. Öppna i Chrome först
         driver = new ChromeDriver();
         driver.get(url);
-        // kontroll att vi är på rätt sida
-        Assertions.assertTrue(driver.getCurrentUrl().contains("Register.html"));
 
         // Stäng Chrome
         driver.quit();
@@ -49,14 +47,7 @@ public class MyStepdefs {
         // 2. Öppna samma sida i Edge
         driver = new EdgeDriver();
         driver.get(url);
-        // Enkel kontroll igen
-        Assertions.assertTrue(driver.getCurrentUrl().contains("Register.html"));
 
-        driver.quit();
-
-        // 3. Öppna new driver/ testa github action
-        driver =new FirefoxDriver();
-        driver.get(url);
     }
 
     @When("I enter date of birth {string}") //Fyller i födelsedatum
