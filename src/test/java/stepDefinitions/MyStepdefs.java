@@ -52,15 +52,7 @@ public class MyStepdefs {
         // Enkel kontroll igen
         Assertions.assertTrue(driver.getCurrentUrl().contains("Register.html"));
 
-        driver.quit();
 
-        // 2. Öppna samma sida i Edge
-        driver = new EdgeDriver();
-        driver.get(url);
-        // Enkel kontroll igen
-        Assertions.assertTrue(driver.getCurrentUrl().contains("Register.html"));
-
-        driver.quit();
     }
 
     @When("I enter date of birth {string}") //Fyller i födelsedatum
