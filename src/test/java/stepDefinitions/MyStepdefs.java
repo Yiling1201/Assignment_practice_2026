@@ -54,9 +54,13 @@ public class MyStepdefs {
 
         driver.quit();
 
-        // 3. Öppna new driver/ testa github action
-        driver =new FirefoxDriver();
+        // 2. Öppna samma sida i Edge
+        driver = new EdgeDriver();
         driver.get(url);
+        // Enkel kontroll igen
+        Assertions.assertTrue(driver.getCurrentUrl().contains("Register.html"));
+
+        driver.quit();
     }
 
     @When("I enter date of birth {string}") //Fyller i födelsedatum
@@ -99,7 +103,7 @@ public class MyStepdefs {
     public void iSetTermsAndConditionsTo(String termsAccepted) {
 
         // Om termsAccepted inte är "true" så klickar vi inte i checkboxarna
-        if (!termsAccepted.equalsIgnoreCase("true")) return;
+//        if (!termsAccepted.equalsIgnoreCase("true")) return;
 
         // Klickar i obligatoriska villkor
         clickLabelFor("sign_up_25");
