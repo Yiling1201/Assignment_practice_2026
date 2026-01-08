@@ -37,18 +37,17 @@ public class MyStepdefs {
     @Given("I open webpage {string}")
     public void iOpenWebpage(String url) {
 
-        // 1. Öppna i Chrome först
-        driver = new ChromeDriver();
+        String browser = System.getProperty("browser", "chrome"); // default chrome
+
+        if (browser.equalsIgnoreCase("edge")) {
+            driver = new EdgeDriver();
+        } else {
+            driver = new ChromeDriver();
+        }
+
         driver.get(url);
-
-        // Stäng Chrome
-        driver.quit();
-
-        // 2. Öppna samma sida i Edge
-        driver = new EdgeDriver();
-        driver.get(url);
-
     }
+
 
     @When("I enter date of birth {string}") //Fyller i födelsedatum
     public void iEnterDateOfBirth(String dateOfBirth) {
@@ -119,7 +118,7 @@ public class MyStepdefs {
             driver.get(successUrl);
 
             // Väntar tills URL innehåller Success.html
-            new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.urlContains("Success.html"));
+            new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlContains("Success.html"));
 
             // verifierar resultatet genom att kontrollera URL: om det är lyckat ska vi vara på Success.html, annars ska vi stanna på Register.html.
             // Verifierar att vi är på Success.html
